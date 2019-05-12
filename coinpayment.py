@@ -22,10 +22,9 @@ class CoinPayment:
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
-    def createHmac(self, params):
-        msg = parse.urlencode(params)
+    def createHmac(self, data):
         result = hmac.new(bytearray(self.privateKey, 'utf-8'),
-                          msg.encode("utf-8"), hashlib.sha512).hexdigest()
+                          data.encode("utf-8"), hashlib.sha512).hexdigest()
         return result
 
     def sendData(self, **kwargs):
