@@ -1,15 +1,13 @@
 import hmac
 import hashlib
 from requests import Session, Request
+from urllib import parse
 
 
 class CoinPayment:
     """
      Api helper for coinpayments.net API
     """
-    privateKey = str()
-    publicKey = str()
-    ipn = str()
 
     def __init__(self, publicKey=None, privateKey=None, ipn=None):
         self.privateKey = privateKey
@@ -24,7 +22,8 @@ class CoinPayment:
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
-    def createHmac(self, msg):
+    def createHmac(self, params):
+        msg = parse.urlencode(params)
         result = hmac.new(bytearray(self.privateKey, 'utf-8'),
                           msg.encode("utf-8"), hashlib.sha512).hexdigest()
         return result
